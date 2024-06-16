@@ -1,0 +1,32 @@
+/* Dashboard.css */
+
+.dashboard-container {
+    display: flex;
+  }
+  
+  .drawer {
+    background-color: #f5f5f5;
+  }
+  
+  .drawer-list {
+    padding: 16px;
+  }
+  
+  .user-info-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+  
+  .map-container {
+    flex-grow: 1;
+    padding: 16px;
+  }
