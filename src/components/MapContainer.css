@@ -1,0 +1,14 @@
+@keyframes drop {
+    0% {
+      transform: translateY(-200px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .gm-style .gm-style-iw-c {
+    animation: drop 0.5s ease;
+  }

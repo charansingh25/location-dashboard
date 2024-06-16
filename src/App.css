@@ -13,7 +13,7 @@
   }
 }
 
-.App-header {
+/* .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -22,6 +22,19 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+} */
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .App-link {
@@ -35,4 +48,40 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+.modal-content {
+  position: relative;
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  outline: none;
+  width: 300px;
+  margin: auto;
+}
+
+.MuiDrawer-paper {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.MuiListItemText-primary {
+  font-size: 16px;
+}
+
+.MuiButton-containedPrimary {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.MuiButton-containedSecondary {
+  background-color: #f50057;
+  color: white;
+}
+
+.MuiButton-outlined {
+  border-color: #3f51b5;
+  color: #3f51b5;
 }
