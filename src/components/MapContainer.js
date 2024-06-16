@@ -6,26 +6,12 @@ const mapStyles = {
   width: "100%"
 };
 
-const MapContainer = ({ location }) => {
-  const [apiLoaded, setApiLoaded] = useState(false); // Track if Google Maps API is loaded
-  const defaultCenter = { lat: 0, lng: 0 }; // Default center when location is not provided
-  const [markerPosition, setMarkerPosition] = useState(null); // State to store marker position
+const MapContainer = ({ location, markerLocation }) => {
+  const [apiLoaded, setApiLoaded] = useState(false);
 
-  // Function to check if Google Maps API is loaded
   const apiIsLoaded = () => {
     setApiLoaded(true);
   };
-
-  // Update marker position when location changes
-  useEffect(() => {
-    if (location) {
-    console.log("Helllllllllo");
-      setMarkerPosition({ lat: location.latitude, lng: location.longitude });
-      if(markerPosition){
-      console.log(markerPosition);
-      }
-    }
-  }, [location]);
 
   return (
     <LoadScript
@@ -35,12 +21,12 @@ const MapContainer = ({ location }) => {
       {apiLoaded && (
         <GoogleMap
           mapContainerStyle={mapStyles}
-          zoom={17}
-          center={location ? { lat: location.latitude, lng: location.longitude } : defaultCenter}
+          zoom={15}
+          center={location ? { lat: location.latitude, lng: location.longitude } : { lat: 22.8226195, lng: 75.9432751 }}
         >
-          {location && (
+          {markerLocation && (
             <Marker
-              position={markerPosition}
+              position={{ lat: markerLocation.latitude, lng: markerLocation.longitude }}
               animation={window.google.maps.Animation.DROP}
             />
           )}

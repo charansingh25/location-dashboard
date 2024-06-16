@@ -1,34 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { firestore } from '../firebase';
 import MapContainer from './MapContainer';
-import { Drawer, List, ListItem, ListItemText, Button } from '@mui/material'; // Import Button from MUI
+import { Drawer, List, ListItem, ListItemText, Button } from '@mui/material';
 import { doc, getDoc } from 'firebase/firestore';
-import './Dashboard.css'; // Import the custom CSS file
+import './Dashboard.css';
 
 const drawerWidth = 280;
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [showMap, setShowMap] = useState(false);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [defaultLocation, setDefaultLocation] = useState({ latitude: 22.8226195, longitude: 75.9432751 });
+  const [markerLocation, setMarkerLocation] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Check if the phone number exists in the 'disaster' collection
         const disasterDocRef = doc(firestore, 'disaster', '123456789');
         const disasterDocSnap = await getDoc(disasterDocRef);
 
         if (disasterDocSnap.exists()) {
-          // If the phone number exists in the 'disaster' collection, fetch the user details from the 'user' collection
           const userDocRef = doc(firestore, 'user', '123456789');
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
             const data = userDocSnap.data();
             setUserData(data);
-            setLocation(data.location);
           } else {
             console.log('No such user document!');
           }
@@ -38,7 +35,7 @@ const Dashboard = () => {
       } catch (error) {
         console.error('Error fetching document:', error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
@@ -46,16 +43,19 @@ const Dashboard = () => {
   }, []);
 
   const handleAccept = () => {
-    setShowMap(true); // Show map block when "Accept" is clicked
+    if (userData && userData.location) {
+      setMarkerLocation(userData.location);
+      setDefaultLocation(userData.location);
+    }
   };
 
   const handleReject = () => {
-    setShowMap(false); // Hide map block when "Reject" is clicked
-    setUserData(null); // Optionally, clear the user data on reject
+    setMarkerLocation(null);
+    setUserData(null);
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading indicator while fetching data
+    return <div>Loading...</div>;
   }
 
   return (
@@ -86,10 +86,10 @@ const Dashboard = () => {
                 <ListItemText primary={`Dad's Phone: ${userData.phone.dad}`} />
               </ListItem>
               <ListItem>
-                <ListItemText primary={`Latitude: ${location?.latitude}`} />
+                <ListItemText primary={`Latitude: ${userData.location?.latitude}`} />
               </ListItem>
               <ListItem>
-                <ListItemText primary={`Longitude: ${location?.longitude}`} />
+                <ListItemText primary={`Longitude: ${userData.location?.longitude}`} />
               </ListItem>
               <ListItem className="button-group">
                 <Button
@@ -112,9 +112,7 @@ const Dashboard = () => {
         </List>
       </Drawer>
       <div className="map-container">
-        {showMap && location && ( // Ensure location is available before showing MapContainer
-          <MapContainer location={location} />
-        )}
+        <MapContainer location={defaultLocation} markerLocation={markerLocation} />
       </div>
     </div>
   );
